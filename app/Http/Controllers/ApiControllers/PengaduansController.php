@@ -1,18 +1,32 @@
 <?php
 
-namespace App\Http\Controllers\ApiController;
+namespace App\Http\Controllers\ApiControllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pengaduans;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 class PengaduansController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+   public function index()
     {
-        //
+        try {
+            $pengaduans = Pengaduans::latest()->get();
+            return response()->json($pengaduans, 200);
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'error' => 'Failed to fetch data',
+                    'message' => $e->getMessage()
+                ],
+                500
+            );
+        }
     }
 
     /**
@@ -42,8 +56,16 @@ class PengaduansController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        try {
+            $pengaduans = Pengaduans::findOrFail($id);
+            $pengaduans->delete();
+            return response()->json(['message' => 'Jenis Sampah deleted successfully'], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Data not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete data', 'message' => $e->getMessage()], 500);
+        }
     }
 }

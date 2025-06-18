@@ -11,6 +11,9 @@ class ArtikelsContoller extends Controller
 
 
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         try {
@@ -33,7 +36,18 @@ class ArtikelsContoller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            // 'title' => 'required|string|max:255',
+            // 'content' => 'required|string',
+            // 'author' => 'required|string|max:255',
+        ]);
+
+        try {
+            $artikels = Artikels::create($request->all());
+            return response()->json($artikels, 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to create data', 'message' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -54,16 +68,23 @@ class ArtikelsContoller extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, string $id) {
+        
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        try {
+            $artikels = Artikels::findOrFail($id);
+            $artikels->delete();
+            return response()->json(['message' => 'Jenis Sampah deleted successfully'], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Data not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete data', 'message' => $e->getMessage()], 500);
+        }
     }
 }
