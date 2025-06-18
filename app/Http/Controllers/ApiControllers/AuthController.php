@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\ApiControllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,6 +14,10 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+    public function getAllUser(){
+        $users = User::all();
+        return response()->json($users, 200);
+    }
 
     public function register(Request $request)
     {
@@ -95,7 +99,8 @@ class AuthController extends Controller
         if ($user) {
             return response()->json([
                 'success' => true,
-                'user' => $user
+                'user' => $user,
+                'message' => 'User profile retrieved successfully',
             ], 200);
         }
 

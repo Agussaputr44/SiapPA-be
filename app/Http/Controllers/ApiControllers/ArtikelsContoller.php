@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\ApiController;
+namespace App\Http\Controllers\ApiControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Artikels;
@@ -17,12 +17,15 @@ class ArtikelsContoller extends Controller
             $artikels = Artikels::latest()->get();
             return response()->json($artikels, 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to fetch data', 'message' => $e->getMessage()], 500);
+            return response()->json(
+                [
+                    'error' => 'Failed to fetch data',
+                    'message' => $e->getMessage()
+                ],
+                500
+            );
         }
     }
-
-  
-
 
 
     /**
