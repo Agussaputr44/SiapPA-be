@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Pengaduans;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 
 
 class PengaduansController extends Controller
@@ -32,29 +33,36 @@ class PengaduansController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'namaKorban'    => 'required|string|max:255',
-            'alamat'        => 'required|string|max:255',
-            'aduan'         => 'required|string',
-            'harapan'       => 'required|string',
-            'status'        => 'nullable|string|max:100',
-            'pelapor'       => 'required|string|max:255',
-            'evidenceUrls'  => 'nullable|string',  // Jika URL dikirim sebagai string JSON
-            'evidencePaths' => 'nullable|string',  // Sama seperti di atas
-        ]);
+   public function store(Request $request)
+{
+    Log::info('Request data: ', $request->all());
 
-        try {
-            $pengaduan = Pengaduans::create($validated);
-            return response()->json($pengaduan, 201);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Failed to store data',
-                'message' => $e->getMessage()
-            ], 500);
-        }
+    $validated = $request->validate([
+        'namaKorban'    => 'required|string|max:255',
+        'alamat'        => 'required|string|max:255',
+        'aduan'         => 'required|string',
+        'harapan'       => 'required|string',
+        'status'        => 'nullable|string|max:100',
+        'evidenceUrls'  => 'nullable|string',
+        'evidencePaths' => 'nullable|string',
+    ]);
+
+    try {
+
+        $pelapor_id = $request->user()->id; 
+        $validated['pelapor'] = $pelapor_id;
+
+        $pengaduan = Pengaduans::create($validated);
+
+        return response()->json($pengaduan, 201);
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'Failed to store data',
+            'message' => $e->getMessage()
+        ], 500);
     }
+}
+
 
 
     /**
@@ -110,7 +118,7 @@ class PengaduansController extends Controller
         try {
             $pengaduans = Pengaduans::findOrFail($id);
             $pengaduans->delete();
-            return response()->json(['message' => 'Jenis Sampah deleted successfully'], 200);
+            return response()->json(['message' => 'Pengaduan deleted successfully'], 200);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Data not found'], 404);
         } catch (\Exception $e) {

@@ -14,6 +14,7 @@ class CreatePengaduansTable extends Migration
             $table->text('alamat');
             $table->text('aduan');
             $table->text('harapan');
+            $table->timestamps(); 
 
             // Enum status
             $table->enum('status', ['terkirim', 'diproses', 'selesai'])->default('terkirim');

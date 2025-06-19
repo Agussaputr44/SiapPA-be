@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Artikels;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 
 class ArtikelsContoller extends Controller
 
@@ -35,6 +36,8 @@ class ArtikelsContoller extends Controller
      */
     public function store(Request $request)
     {
+        Log::info('Request data: ', $request->all());
+
         $request->validate([
             'judul' => 'required|string|max:255',
             'isi' => 'required|string',
@@ -72,7 +75,7 @@ class ArtikelsContoller extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'isi' => 'required|string',
-            'foto' => 'nullable|string|max:255', 
+            'foto' => 'nullable|string|max:255',
         ]);
 
         try {
@@ -95,7 +98,7 @@ class ArtikelsContoller extends Controller
         try {
             $artikels = Artikels::findOrFail($id);
             $artikels->delete();
-            return response()->json(['message' => 'Jenis Sampah deleted successfully'], 200);
+            return response()->json(['message' => 'Artikel deleted successfully'], 200);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Data not found'], 404);
         } catch (\Exception $e) {

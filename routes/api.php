@@ -20,15 +20,20 @@ Route::prefix('v1')->group(function () {
         Route::get('auth/users', [AuthController::class, 'getAllUser']);
         Route::get('auth/user', [AuthController::class, 'getUserProfile']);
 
+
         // articles
-        Route::get('auth/artikels', [ArtikelsContoller::class, 'index']);
-        Route::get('auth/artikels/{artikels_id}', [ArtikelsContoller::class, 'show']);
-        Route::post('auth/artikels/{artikels_id}', [ArtikelsContoller::class, 'destroy']);
+        Route::post('artikels', [ArtikelsContoller::class, 'store']);
+        Route::get('artikels', [ArtikelsContoller::class, 'index']);
+        Route::get('artikels/{artikels_id}', [ArtikelsContoller::class, 'show']);
+        Route::put('artikels/{artikels_id}', [ArtikelsContoller::class, 'update']);
+        Route::delete('artikels/{artikels_id}', [ArtikelsContoller::class, 'destroy']);
 
 
         // pengaduans
-        Route::get('auth/pengaduans', [PengaduansController::class, 'index']);
-        Route::get('auth/pengaduans/{pengaduans_id}', [PengaduansController::class, 'show']);
-        Route::post('auth/pengaduans/{pengaduans_id}', [PengaduansController::class, 'destroy']);
+        Route::get('pengaduans', [PengaduansController::class, 'index']);
+        Route::post('pengaduans', [PengaduansController::class, 'store']);
+        Route::get('pengaduans/{pengaduans_id}', [PengaduansController::class, 'show']);
+        Route::delete('pengaduans/{pengaduans_id}', [PengaduansController::class, 'destroy']);
+        Route::put('pengaduans/{pengaduans_id}', [PengaduansController::class, 'update']);
     });
 });
