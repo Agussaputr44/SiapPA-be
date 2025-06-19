@@ -169,29 +169,7 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function uploadImage(Request $request)
-    {
-        $request->validate([
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
-        $file = $request->file('file');
-        $filename = Str::random(40) . '.' . $file->getClientOriginalExtension();
-        $uploadPath = 'foto_profil';
-
-        // Buat folder jika belum ada
-        if (!Storage::disk('public')->exists($uploadPath)) {
-            Storage::disk('public')->makeDirectory($uploadPath);
-        }
-
-        // Simpan file
-        $path = $file->storeAs($uploadPath, $filename, 'public');
-
-        // Hanya menyimpan jalur relatif
-        return response()->json([
-            'imageUrl' => ltrim(Storage::url($path), '/')
-        ], 200);
-    }
+   
 
 
     public function updatePassword(Request $request)

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApiControllers\ArtikelsContoller;
 use App\Http\Controllers\ApiControllers\AuthController;
 use App\Http\Controllers\ApiControllers\PengaduansController;
+use App\Http\Controllers\ApiControllers\UploadsFilesController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -20,6 +21,8 @@ Route::prefix('v1')->group(function () {
         Route::get('auth/users', [AuthController::class, 'getAllUser']);
         Route::get('auth/user', [AuthController::class, 'getUserProfile']);
 
+        // upload files
+        Route::post('uploads', [UploadsFilesController::class, 'uploadFiles']);
 
         // articles
         Route::post('artikels', [ArtikelsContoller::class, 'store']);
