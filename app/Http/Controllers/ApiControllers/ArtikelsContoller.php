@@ -30,16 +30,15 @@ class ArtikelsContoller extends Controller
         }
     }
 
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $request->validate([
-            // 'title' => 'required|string|max:255',
-            // 'content' => 'required|string',
-            // 'author' => 'required|string|max:255',
+            'judul' => 'required|string|max:255',
+            'isi' => 'required|string',
+            'foto' => 'required|string|max:255',
         ]);
 
         try {
@@ -68,9 +67,25 @@ class ArtikelsContoller extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id) {
-        
+    public function update(Request $request, string $id)
+    {
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'isi' => 'required|string',
+            'foto' => 'nullable|string|max:255', 
+        ]);
+
+        try {
+            $artikels = Artikels::findOrFail($id);
+            $artikels->update($request->only(['judul', 'isi', 'foto']));
+            return response()->json($artikels, 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Data not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update data', 'message' => $e->getMessage()], 500);
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
