@@ -9,8 +9,18 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+
+/**
+ * SocialiteController handles Google OAuth authentication.
+ * It redirects users to Google for authentication and handles the token response.
+ */
 class SocialiteController extends Controller
 {
+    /**
+     * Redirect the user to the Google authentication page.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function redirectToGoogle()
     {
         // Log session status
@@ -23,6 +33,12 @@ class SocialiteController extends Controller
         return Socialite::driver('google')->redirect();
     }
     
+    /**
+     * Handle the Google callback and retrieve the user information.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function handleGoogleToken(Request $request)
     {
         try {

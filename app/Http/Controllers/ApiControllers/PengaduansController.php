@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 
-
+/**
+ * PengaduansController handles the CRUD operations for Pengaduans model.
+ */
 class PengaduansController extends Controller
 {
     /**
@@ -43,7 +45,9 @@ class PengaduansController extends Controller
             'aduan'         => 'required|string',
             'kategoriKekerasan' => 'required|in:kekerasan_fisik,kekerasan_seksual,kekerasan_lainnya',
             'harapan'       => 'required|string',
-            'status'        => 'nullable|in:terkirim', 'diproses', 'selesai',
+            'status'        => 'nullable|in:terkirim',
+            'diproses',
+            'selesai',
             'evidenceUrls'  => 'nullable|string',
             'evidencePaths' => 'nullable|string',
         ]);

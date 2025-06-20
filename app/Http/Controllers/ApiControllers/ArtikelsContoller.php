@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * ArtikelsController handles the CRUD operations for Artikels model.
+ */
 class ArtikelsContoller extends Controller
 
 

@@ -7,11 +7,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+/*
+ * UploadsFilesController handles file uploads for various media types.
+ * It validates the files and stores them in the 'uploads' directory.
+ */
 
 class UploadsFilesController extends Controller
 {
 
 
+    /**
+     * Handle the file upload request.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    
     public function uploadFiles(Request $request)
     {
         $request->validate([

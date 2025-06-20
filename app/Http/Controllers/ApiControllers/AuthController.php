@@ -11,7 +11,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-
+/**
+ * AuthController handles user authentication and profile management.
+ * It provides methods for user registration, login, logout, and profile updates.
+ */
 class AuthController extends Controller
 {
     public function getAllUser(){
