@@ -43,7 +43,7 @@ class PengaduansController extends Controller
             'aduan'         => 'required|string',
             'kategoriKekerasan' => 'required|in:kekerasan_fisik,kekerasan_seksual,kekerasan_lainnya',
             'harapan'       => 'required|string',
-            'status'        => 'nullable|string|max:100',
+            'status'        => 'nullable|in:terkirim', 'diproses', 'selesai',
             'evidenceUrls'  => 'nullable|string',
             'evidencePaths' => 'nullable|string',
         ]);
