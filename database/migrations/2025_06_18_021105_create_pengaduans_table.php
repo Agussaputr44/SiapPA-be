@@ -18,6 +18,7 @@ class CreatePengaduansTable extends Migration
 
             // Enum status
             $table->enum('status', ['terkirim', 'diproses', 'selesai'])->default('terkirim');
+            $table->enum('kategoriKekerasan', ['kekerasan_fisik', 'kekerasan_seksual', 'kekerasan_lainnya'])->default('kekerasan_lainnya');
 
             // Foreign key ke users
             $table->unsignedBigInteger('pelapor');

@@ -15,6 +15,7 @@ class Pengaduans extends Model
         'aduan',
         'harapan',
         'status',
+        'kategoriKekerasan',
         'pelapor',
         'evidenceUrls',
         'evidencePaths',

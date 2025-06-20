@@ -33,35 +33,36 @@ class PengaduansController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-   public function store(Request $request)
-{
-    Log::info('Request data: ', $request->all());
+    public function store(Request $request)
+    {
+        Log::info('Request data: ', $request->all());
 
-    $validated = $request->validate([
-        'namaKorban'    => 'required|string|max:255',
-        'alamat'        => 'required|string|max:255',
-        'aduan'         => 'required|string',
-        'harapan'       => 'required|string',
-        'status'        => 'nullable|string|max:100',
-        'evidenceUrls'  => 'nullable|string',
-        'evidencePaths' => 'nullable|string',
-    ]);
+        $validated = $request->validate([
+            'namaKorban'    => 'required|string|max:255',
+            'alamat'        => 'required|string|max:255',
+            'aduan'         => 'required|string',
+            'kategoriKekerasan' => 'required|in:kekerasan_fisik,kekerasan_seksual,kekerasan_lainnya',
+            'harapan'       => 'required|string',
+            'status'        => 'nullable|string|max:100',
+            'evidenceUrls'  => 'nullable|string',
+            'evidencePaths' => 'nullable|string',
+        ]);
 
-    try {
+        try {
 
-        $pelapor_id = $request->user()->id; 
-        $validated['pelapor'] = $pelapor_id;
+            $pelapor_id = $request->user()->id;
+            $validated['pelapor'] = $pelapor_id;
 
-        $pengaduan = Pengaduans::create($validated);
+            $pengaduan = Pengaduans::create($validated);
 
-        return response()->json($pengaduan, 201);
-    } catch (\Exception $e) {
-        return response()->json([
-            'error' => 'Failed to store data',
-            'message' => $e->getMessage()
-        ], 500);
+            return response()->json($pengaduan, 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to store data',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
-}
 
 
 
@@ -90,6 +91,7 @@ class PengaduansController extends Controller
             'alamat'        => 'sometimes|required|string|max:255',
             'aduan'         => 'sometimes|required|string',
             'harapan'       => 'sometimes|required|string',
+            'kategoriKekerasan' => 'sometimes|required|in:kekerasan_fisik,kekerasan_seksual,kekerasan_lainnya',
             'status'        => 'sometimes|nullable|string|max:100',
             'pelapor'       => 'sometimes|required|string|max:255',
             'evidenceUrls'  => 'sometimes|nullable|string',
