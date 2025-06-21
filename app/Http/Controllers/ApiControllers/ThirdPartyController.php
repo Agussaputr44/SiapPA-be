@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\ApiControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
  * SocialiteController handles Google OAuth authentication.
  * It redirects users to Google for authentication and handles the token response.
  */
-class SocialiteController extends Controller
+class ThirdPartyController extends Controller
 {
     /**
      * Redirect the user to the Google authentication page.

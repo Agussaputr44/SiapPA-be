@@ -1,0 +1,1139 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "SiapPA API",
+        "description": "API documentation for SiapPA application",
+        "contact": {
+            "email": "support@siappa.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/artikels": {
+            "get": {
+                "tags": [
+                    "Artikels"
+                ],
+                "summary": "Get list of artikels",
+                "description": "Returns a list of artikels ordered by the latest first",
+                "operationId": "getArtikelsList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Artikels"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Failed to fetch data"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error message details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Artikels"
+                ],
+                "summary": "Create a new artikel",
+                "description": "Creates a new artikel and returns the created artikel data",
+                "operationId": "createArtikel",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "judul": {
+                                        "description": "Judul artikel, maksimum 255 karakter",
+                                        "type": "string",
+                                        "example": "Judul Artikel"
+                                    },
+                                    "isi": {
+                                        "description": "Isi artikel",
+                                        "type": "string",
+                                        "example": "Isi artikel..."
+                                    },
+                                    "foto": {
+                                        "description": "Path atau URL ke file foto",
+                                        "type": "string",
+                                        "example": "path/to/foto.jpg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Artikel created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Artikels"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Failed to create data"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error message details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/artikels/{id}": {
+            "get": {
+                "tags": [
+                    "Artikels"
+                ],
+                "summary": "Get artikel by ID",
+                "description": "Returns a single artikel based on ID",
+                "operationId": "getArtikelById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of artikel to return",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Artikels"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Artikel not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Failed to fetch data"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error message details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Artikels"
+                ],
+                "summary": "Update an existing artikel",
+                "description": "Updates an existing artikel and returns the updated artikel data",
+                "operationId": "updateArtikel",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of artikel to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "judul": {
+                                        "description": "Judul artikel, maksimum 255 karakter",
+                                        "type": "string",
+                                        "example": "Judul Artikel Baru"
+                                    },
+                                    "isi": {
+                                        "description": "Isi artikel",
+                                        "type": "string",
+                                        "example": "Isi artikel yang diperbarui..."
+                                    },
+                                    "foto": {
+                                        "description": "Path atau URL ke file foto",
+                                        "type": "string",
+                                        "example": "path/to/foto_baru.jpg",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Artikel updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Artikels"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Artikel not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Failed to update data"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error message details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Artikels"
+                ],
+                "summary": "Delete an artikel",
+                "description": "Deletes an artikel based on ID",
+                "operationId": "deleteArtikel",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of artikel to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Artikel deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Artikel deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Artikel not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Failed to delete data"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error message details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users",
+                "description": "Returns a list of all users",
+                "operationId": "getAllUsers",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/auth/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Register a new user",
+                "description": "Creates a new user and returns an authentication token",
+                "operationId": "register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Nama pengguna",
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "description": "Email pengguna",
+                                        "type": "string",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "description": "Kata sandi pengguna",
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User login",
+                "description": "Authenticates a user and returns an authentication token",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email pengguna",
+                                        "type": "string",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "description": "Kata sandi pengguna",
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User logout",
+                "description": "Logs out the authenticated user and revokes the token",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Logout successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Pesan sukses",
+                                            "type": "string",
+                                            "example": "Logged out successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/auth/user": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get authenticated user profile",
+                "description": "Returns the profile of the authenticated user",
+                "operationId": "getUserProfile",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Status keberhasilan",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "message": {
+                                            "description": "Pesan sukses",
+                                            "type": "string",
+                                            "example": "User profile retrieved successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update authenticated user profile",
+                "description": "Updates the profile of the authenticated user",
+                "operationId": "updateProfile",
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Nama pengguna",
+                                        "type": "string",
+                                        "example": "John Doe Updated",
+                                        "nullable": true
+                                    },
+                                    "foto_profil": {
+                                        "description": "Path atau URL foto profil",
+                                        "type": "string",
+                                        "example": "path/to/newfoto.jpg",
+                                        "nullable": true
+                                    },
+                                    "password": {
+                                        "description": "Kata sandi baru",
+                                        "type": "string",
+                                        "example": "newpassword123",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profile updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Status keberhasilan",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "description": "Pesan sukses",
+                                            "type": "string",
+                                            "example": "Profile updated successfully"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/auth/user/password": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update authenticated user password",
+                "description": "Updates the password of the authenticated user",
+                "operationId": "updatePassword",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "current_password": {
+                                        "description": "Kata sandi saat ini",
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "new_password": {
+                                        "description": "Kata sandi baru",
+                                        "type": "string",
+                                        "example": "newpassword123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Status keberhasilan",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "description": "Pesan sukses",
+                                            "type": "string",
+                                            "example": "Password updated successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized or incorrect current password",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/pengaduans": {
+            "get": {
+                "tags": [
+                    "Pengaduans"
+                ],
+                "summary": "Get list of pengaduans",
+                "operationId": "9550c8ea3f98239b985e942b0211473d",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Pengaduans"
+                ],
+                "summary": "Create a new pengaduan",
+                "operationId": "04b58eb148343c76f2a8a761e4ada2de",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PengaduanRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/pengaduans/{id}": {
+            "get": {
+                "tags": [
+                    "Pengaduans"
+                ],
+                "summary": "Get a specific pengaduan",
+                "operationId": "7789046da6d1a9646dfc5db8fdc5510e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Data not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Pengaduans"
+                ],
+                "summary": "Update a specific pengaduan",
+                "operationId": "1bb482b8cb0ecbecef903ba61e84f86c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PengaduanRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    },
+                    "404": {
+                        "description": "Data not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Pengaduans"
+                ],
+                "summary": "Delete a pengaduan",
+                "operationId": "ccd82abaa6ebecfcfcc29de2ef027a3c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    },
+                    "404": {
+                        "description": "Data not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "properties": {
+                    "id": {
+                        "description": "ID unik pengguna",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nama pengguna",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "description": "Email pengguna",
+                        "type": "string",
+                        "example": "john@example.com"
+                    },
+                    "foto_profile": {
+                        "description": "Path atau URL foto profil",
+                        "type": "string",
+                        "example": "path/to/foto.jpg",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Waktu pembuatan",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-06-21T20:40:00Z"
+                    },
+                    "updated_at": {
+                        "description": "Waktu pembaruan",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-06-21T20:40:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthResponse": {
+                "properties": {
+                    "token": {
+                        "description": "Token autentikasi",
+                        "type": "string",
+                        "example": "your-auth-token"
+                    },
+                    "token_type": {
+                        "description": "Jenis token",
+                        "type": "string",
+                        "example": "Bearer"
+                    },
+                    "user_data": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        ],
+                        "nullable": true,
+                        "description": "Data pengguna"
+                    },
+                    "success": {
+                        "description": "Status keberhasilan",
+                        "type": "boolean",
+                        "example": true,
+                        "nullable": true
+                    },
+                    "message": {
+                        "description": "Pesan sukses",
+                        "type": "string",
+                        "example": "Login successful",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "ErrorResponse": {
+                "properties": {
+                    "message": {
+                        "description": "Pesan error",
+                        "type": "string",
+                        "example": "Login failed, please check your credentials."
+                    },
+                    "success": {
+                        "description": "Status keberhasilan",
+                        "type": "boolean",
+                        "example": false,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "ValidationError": {
+                "properties": {
+                    "error": {
+                        "description": "Kesalahan validasi",
+                        "type": "object",
+                        "example": {
+                            "email": [
+                                "The email field is required."
+                            ]
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "PengaduanRequest": {
+                "required": [
+                    "namaKorban",
+                    "alamat",
+                    "aduan",
+                    "kategoriKekerasan",
+                    "harapan"
+                ],
+                "properties": {
+                    "namaKorban": {
+                        "type": "string",
+                        "example": "Siti Nurhaliza"
+                    },
+                    "alamat": {
+                        "type": "string",
+                        "example": "Jl. Merdeka No. 123"
+                    },
+                    "aduan": {
+                        "type": "string",
+                        "example": "Saya mengalami kekerasan."
+                    },
+                    "kategoriKekerasan": {
+                        "type": "string",
+                        "enum": [
+                            "kekerasan_fisik",
+                            "kekerasan_seksual",
+                            "kekerasan_lainnya"
+                        ],
+                        "example": "kekerasan_fisik"
+                    },
+                    "harapan": {
+                        "type": "string",
+                        "example": "Saya berharap pelaku dihukum."
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "terkirim",
+                        "nullable": true
+                    },
+                    "evidenceUrls": {
+                        "type": "string",
+                        "example": "https://example.com/evidence.jpg",
+                        "nullable": true
+                    },
+                    "evidencePaths": {
+                        "type": "string",
+                        "example": "evidence/image.jpg",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Artikels": {
+                "title": "Artikel",
+                "required": [
+                    "judul",
+                    "isi",
+                    "foto"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "judul": {
+                        "type": "string",
+                        "example": "Judul Artikel"
+                    },
+                    "isi": {
+                        "type": "string",
+                        "example": "Isi lengkap artikel..."
+                    },
+                    "foto": {
+                        "type": "string",
+                        "format": "url",
+                        "example": "http://example.com/image.jpg"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Artikels",
+            "description": "Artikels"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        },
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
+        {
+            "name": "Pengaduans",
+            "description": "Pengaduans"
+        }
+    ]
+}

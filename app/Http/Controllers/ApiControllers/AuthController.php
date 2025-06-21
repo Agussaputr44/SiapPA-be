@@ -12,48 +12,159 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * AuthController handles user authentication and profile management.
- * It provides methods for user registration, login, logout, and profile updates.
+ * @OA\Components(
+ *     @OA\Schema(
+ *         schema="User",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer", example=1, description="ID unik pengguna"),
+ *         @OA\Property(property="name", type="string", example="John Doe", description="Nama pengguna"),
+ *         @OA\Property(property="email", type="string", example="john@example.com", description="Email pengguna"),
+ *         @OA\Property(property="foto_profile", type="string", example="path/to/foto.jpg", description="Path atau URL foto profil", nullable=true),
+ *         @OA\Property(property="created_at", type="string", format="date-time", example="2025-06-21T20:40:00Z", description="Waktu pembuatan"),
+ *         @OA\Property(property="updated_at", type="string", format="date-time", example="2025-06-21T20:40:00Z", description="Waktu pembaruan")
+ *     ),
+ *     @OA\Schema(
+ *         schema="AuthResponse",
+ *         type="object",
+ *         @OA\Property(property="token", type="string", example="your-auth-token", description="Token autentikasi"),
+ *         @OA\Property(property="token_type", type="string", example="Bearer", description="Jenis token"),
+ *         @OA\Property(property="user_data", ref="#/components/schemas/User", description="Data pengguna", nullable=true),
+ *         @OA\Property(property="success", type="boolean", example=true, description="Status keberhasilan", nullable=true),
+ *         @OA\Property(property="message", type="string", example="Login successful", description="Pesan sukses", nullable=true)
+ *     ),
+ *     @OA\Schema(
+ *         schema="ErrorResponse",
+ *         type="object",
+ *         @OA\Property(property="message", type="string", example="Login failed, please check your credentials.", description="Pesan error"),
+ *         @OA\Property(property="success", type="boolean", example=false, description="Status keberhasilan", nullable=true)
+ *     ),
+ *     @OA\Schema(
+ *         schema="ValidationError",
+ *         type="object",
+ *        @OA\Property(
+ * property="error",
+ *   type="object",
+ *  example={"email": {"0": "The email field is required."}},
+ * description="Kesalahan validasi"
+ *)
+ * )
+ * )
  */
 class AuthController extends Controller
 {
-    public function getAllUser(){
+    /**
+     * @OA\Get(
+     *     path="/api/v1/auth/users",
+     *     operationId="getAllUsers",
+     *     tags={"Users"},
+     *     summary="Get all users",
+     *     description="Returns a list of all users",
+     *     security={{"sanctum": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/User")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(ref="#/components/schemas/ErrorResponse")
+     *     )
+     * )
+     */
+    public function getAllUser()
+    {
         $users = User::all();
         return response()->json($users, 200);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/v1/auth/register",
+     *     operationId="register",
+     *     tags={"Authentication"},
+     *     summary="Register a new user",
+     *     description="Creates a new user and returns an authentication token",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", example="John Doe", description="Nama pengguna"),
+     *             @OA\Property(property="email", type="string", example="john@example.com", description="Email pengguna"),
+     *             @OA\Property(property="password", type="string", example="password123", description="Kata sandi pengguna")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="User registered successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/AuthResponse")
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(ref="#/components/schemas/ValidationError")
+     *     )
+     * )
+     */
     public function register(Request $request)
     {
-        // Validasi input
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
         ]);
 
-        // Kirim error jika validasi gagal
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        // Buat user baru
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        // Generate token
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        // Response
         return response()->json([
             'token' => $token,
             'token_type' => 'Bearer',
         ], 201);
     }
 
-
+    /**
+     * @OA\Post(
+     *     path="/api/v1/auth/login",
+     *     operationId="login",
+     *     tags={"Authentication"},
+     *     summary="User login",
+     *     description="Authenticates a user and returns an authentication token",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="email", type="string", example="john@example.com", description="Email pengguna"),
+     *             @OA\Property(property="password", type="string", example="password123", description="Kata sandi pengguna")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login successful",
+     *         @OA\JsonContent(ref="#/components/schemas/AuthResponse")
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(ref="#/components/schemas/ErrorResponse")
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(ref="#/components/schemas/ValidationError")
+     *     )
+     * )
+     */
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -84,7 +195,28 @@ class AuthController extends Controller
         ]);
     }
 
-
+    /**
+     * @OA\Post(
+     *     path="/api/v1/auth/logout",
+     *     operationId="logout",
+     *     tags={"Authentication"},
+     *     summary="User logout",
+     *     description="Logs out the authenticated user and revokes the token",
+     *     security={{"sanctum": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Logout successful",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Logged out successfully", description="Pesan sukses")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(ref="#/components/schemas/ErrorResponse")
+     *     )
+     * )
+     */
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
@@ -94,7 +226,30 @@ class AuthController extends Controller
         ]);
     }
 
-
+    /**
+     * @OA\Get(
+     *     path="/api/v1/auth/user",
+     *     operationId="getUserProfile",
+     *     tags={"Users"},
+     *     summary="Get authenticated user profile",
+     *     description="Returns the profile of the authenticated user",
+     *     security={{"sanctum": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true, description="Status keberhasilan"),
+     *             @OA\Property(property="user", ref="#/components/schemas/User", description="Data pengguna"),
+     *             @OA\Property(property="message", type="string", example="User profile retrieved successfully", description="Pesan sukses")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(ref="#/components/schemas/ErrorResponse")
+     *     )
+     * )
+     */
     public function getUserProfile(Request $request)
     {
         $user = $request->user();
@@ -122,6 +277,43 @@ class AuthController extends Controller
         return $url;
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/v1/auth/user",
+     *     operationId="updateProfile",
+     *     tags={"Users"},
+     *     summary="Update authenticated user profile",
+     *     description="Updates the profile of the authenticated user",
+     *     security={{"sanctum": {}}},
+     *     @OA\RequestBody(
+     *         required=false,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", example="John Doe Updated", description="Nama pengguna", nullable=true),
+     *             @OA\Property(property="foto_profil", type="string", example="path/to/newfoto.jpg", description="Path atau URL foto profil", nullable=true),
+     *             @OA\Property(property="password", type="string", example="newpassword123", description="Kata sandi baru", nullable=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Profile updated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true, description="Status keberhasilan"),
+     *             @OA\Property(property="message", type="string", example="Profile updated successfully", description="Pesan sukses"),
+     *             @OA\Property(property="user", ref="#/components/schemas/User", description="Data pengguna")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(ref="#/components/schemas/ValidationError")
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(ref="#/components/schemas/ErrorResponse")
+     *     )
+     * )
+     */
     public function updateProfile(Request $request)
     {
         Log::info('Incoming request data:', $request->all());
@@ -172,9 +364,41 @@ class AuthController extends Controller
         ], 200);
     }
 
-   
-
-
+    /**
+     * @OA\Put(
+     *     path="/api/v1/auth/user/password",
+     *     operationId="updatePassword",
+     *     tags={"Users"},
+     *     summary="Update authenticated user password",
+     *     description="Updates the password of the authenticated user",
+     *     security={{"sanctum": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="current_password", type="string", example="password123", description="Kata sandi saat ini"),
+     *             @OA\Property(property="new_password", type="string", example="newpassword123", description="Kata sandi baru")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Password updated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true, description="Status keberhasilan"),
+     *             @OA\Property(property="message", type="string", example="Password updated successfully.", description="Pesan sukses")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(ref="#/components/schemas/ValidationError")
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized or incorrect current password",
+     *         @OA\JsonContent(ref="#/components/schemas/ErrorResponse")
+     *     )
+     * )
+     */
     public function updatePassword(Request $request)
     {
         $validator = Validator::make($request->all(), [

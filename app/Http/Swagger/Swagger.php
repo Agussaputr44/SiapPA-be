@@ -1,7 +1,5 @@
 <?php
-
-namespace App\Http\Controllers;
-
+namespace App\Http\Swagger;
 
 /**
  * @OA\Info(
@@ -17,7 +15,4 @@ namespace App\Http\Controllers;
  *     )
  * )
  */
-abstract class Controller
-{
-    //
-}
+class Swagger{}

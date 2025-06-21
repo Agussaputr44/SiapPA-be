@@ -12,11 +12,31 @@ use Illuminate\Support\Facades\Log;
  * ArtikelsController handles the CRUD operations for Artikels model.
  */
 class ArtikelsContoller extends Controller
-
-
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/v1/artikels",
+     *     operationId="getArtikelsList",
+     *     tags={"Artikels"},
+     *     summary="Get list of artikels",
+     *     description="Returns a list of artikels ordered by the latest first",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Artikels")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Failed to fetch data"),
+     *             @OA\Property(property="message", type="string", example="Error message details")
+     *         )
+     *     )
+     * )
      */
     public function index()
     {
@@ -33,9 +53,35 @@ class ArtikelsContoller extends Controller
             );
         }
     }
-
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/v1/artikels",
+     *     operationId="createArtikel",
+     *     tags={"Artikels"},
+     *     summary="Create a new artikel",
+     *     description="Creates a new artikel and returns the created artikel data",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="judul", type="string", example="Judul Artikel", description="Judul artikel, maksimum 255 karakter"),
+     *             @OA\Property(property="isi", type="string", example="Isi artikel...", description="Isi artikel"),
+     *             @OA\Property(property="foto", type="string", example="path/to/foto.jpg", description="Path atau URL ke file foto")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Artikel created successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/Artikels")
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Failed to create data"),
+     *             @OA\Property(property="message", type="string", example="Error message details")
+     *         )
+     *     )
+     * )
      */
     public function store(Request $request)
     {
@@ -56,7 +102,40 @@ class ArtikelsContoller extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/v1/artikels/{id}",
+     *     operationId="getArtikelById",
+     *     tags={"Artikels"},
+     *     summary="Get artikel by ID",
+     *     description="Returns a single artikel based on ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of artikel to return",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/Artikels")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Artikel not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Data not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Failed to fetch data"),
+     *             @OA\Property(property="message", type="string", example="Error message details")
+     *         )
+     *     )
+     * )
      */
     public function show($id)
     {
@@ -71,7 +150,48 @@ class ArtikelsContoller extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/v1/artikels/{id}",
+     *     operationId="updateArtikel",
+     *     tags={"Artikels"},
+     *     summary="Update an existing artikel",
+     *     description="Updates an existing artikel and returns the updated artikel data",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of artikel to update",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="judul", type="string", example="Judul Artikel Baru", description="Judul artikel, maksimum 255 karakter"),
+     *             @OA\Property(property="isi", type="string", example="Isi artikel yang diperbarui...", description="Isi artikel"),
+     *             @OA\Property(property="foto", type="string", example="path/to/foto_baru.jpg", description="Path atau URL ke file foto", nullable=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Artikel updated successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/Artikels")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Artikel not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Data not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Failed to update data"),
+     *             @OA\Property(property="message", type="string", example="Error message details")
+     *         )
+     *     )
+     * )
      */
     public function update(Request $request, string $id)
     {
@@ -94,7 +214,42 @@ class ArtikelsContoller extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/v1/artikels/{id}",
+     *     operationId="deleteArtikel",
+     *     tags={"Artikels"},
+     *     summary="Delete an artikel",
+     *     description="Deletes an artikel based on ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of artikel to delete",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Artikel deleted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Artikel deleted successfully")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Artikel not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Data not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Failed to delete data"),
+     *             @OA\Property(property="message", type="string", example="Error message details")
+     *         )
+     *     )
+     * )
      */
     public function destroy($id)
     {
