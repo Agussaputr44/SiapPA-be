@@ -18,6 +18,7 @@ class ArtikelsContoller extends Controller
      *     path="/api/v1/artikels",
      *     operationId="getArtikelsList",
      *     tags={"Artikels"},
+     *    security={{"sanctum": {}}},
      *     summary="Get list of artikels",
      *     description="Returns a list of artikels ordered by the latest first",
      *     @OA\Response(
@@ -58,6 +59,7 @@ class ArtikelsContoller extends Controller
      *     path="/api/v1/artikels",
      *     operationId="createArtikel",
      *     tags={"Artikels"},
+     *    security={{"sanctum": {}}},
      *     summary="Create a new artikel",
      *     description="Creates a new artikel and returns the created artikel data",
      *     @OA\RequestBody(
@@ -106,6 +108,7 @@ class ArtikelsContoller extends Controller
      *     path="/api/v1/artikels/{id}",
      *     operationId="getArtikelById",
      *     tags={"Artikels"},
+     *     security={{"sanctum": {}}},
      *     summary="Get artikel by ID",
      *     description="Returns a single artikel based on ID",
      *     @OA\Parameter(
@@ -154,6 +157,7 @@ class ArtikelsContoller extends Controller
      *     path="/api/v1/artikels/{id}",
      *     operationId="updateArtikel",
      *     tags={"Artikels"},
+     *      security={{"sanctum": {}}},
      *     summary="Update an existing artikel",
      *     description="Updates an existing artikel and returns the updated artikel data",
      *     @OA\Parameter(
@@ -218,6 +222,7 @@ class ArtikelsContoller extends Controller
      *     path="/api/v1/artikels/{id}",
      *     operationId="deleteArtikel",
      *     tags={"Artikels"},
+     *      security={{"sanctum": {}}},
      *     summary="Delete an artikel",
      *     description="Deletes an artikel based on ID",
      *     @OA\Parameter(

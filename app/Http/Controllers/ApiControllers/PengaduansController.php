@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Log;
  *     @OA\Property(property="kategoriKekerasan", type="string", enum={"kekerasan_fisik", "kekerasan_seksual", "kekerasan_lainnya"}, example="kekerasan_fisik"),
  *     @OA\Property(property="harapan", type="string", example="Saya berharap pelaku dihukum."),
  *     @OA\Property(property="status", type="string", nullable=true, example="terkirim"),
- *     @OA\Property(property="evidenceUrls", type="string", nullable=true, example="https://example.com/evidence.jpg"),
  *     @OA\Property(property="evidencePaths", type="string", nullable=true, example="evidence/image.jpg")
  * )
  */
@@ -29,6 +28,7 @@ class PengaduansController extends Controller
      *     path="/api/v1/pengaduans",
      *     summary="Get list of pengaduans",
      *     tags={"Pengaduans"},
+     *      security={{"sanctum": {}}},
      *     @OA\Response(response=200, description="Success"),
      *     @OA\Response(response=500, description="Internal Server Error")
      * )
@@ -50,6 +50,7 @@ class PengaduansController extends Controller
      * @OA\Post(
      *     path="/api/v1/pengaduans",
      *     summary="Create a new pengaduan",
+     *      security={{"sanctum": {}}},
      *     tags={"Pengaduans"},
      *     @OA\RequestBody(
      *         required=true,
@@ -70,7 +71,6 @@ class PengaduansController extends Controller
             'kategoriKekerasan' => 'required|in:kekerasan_fisik,kekerasan_seksual,kekerasan_lainnya',
             'harapan' => 'required|string',
             'status' => 'nullable|in:terkirim,diproses,selesai',
-            'evidenceUrls' => 'nullable|string',
             'evidencePaths' => 'nullable|string',
         ]);
 
@@ -91,6 +91,7 @@ class PengaduansController extends Controller
      * @OA\Get(
      *     path="/api/v1/pengaduans/{id}",
      *     summary="Get a specific pengaduan",
+     *     security={{"sanctum": {}}},
      *     tags={"Pengaduans"},
      *     @OA\Parameter(
      *         name="id",
@@ -118,6 +119,7 @@ class PengaduansController extends Controller
      * @OA\Put(
      *     path="/api/v1/pengaduans/{id}",
      *     summary="Update a specific pengaduan",
+     *    security={{"sanctum": {}}},
      *     tags={"Pengaduans"},
      *     @OA\Parameter(
      *         name="id",
@@ -143,7 +145,6 @@ class PengaduansController extends Controller
             'kategoriKekerasan' => 'sometimes|required|in:kekerasan_fisik,kekerasan_seksual,kekerasan_lainnya',
             'status' => 'sometimes|nullable|string|max:100',
             'pelapor' => 'sometimes|required|string|max:255',
-            'evidenceUrls' => 'sometimes|nullable|string',
             'evidencePaths' => 'sometimes|nullable|string',
         ]);
 
@@ -165,6 +166,7 @@ class PengaduansController extends Controller
      * @OA\Delete(
      *     path="/api/v1/pengaduans/{id}",
      *     summary="Delete a pengaduan",
+     *    security={{"sanctum": {}}},
      *     tags={"Pengaduans"},
      *     @OA\Parameter(
      *         name="id",

@@ -17,7 +17,6 @@ class Pengaduans extends Model
         'status',
         'kategoriKekerasan',
         'pelapor',
-        'evidenceUrls',
         'evidencePaths',
     ];
 }

@@ -28,7 +28,6 @@ class CreatePengaduansTable extends Migration
             $table->timestamp('updatedAt')->nullable();
 
             // Evidence (gunakan JSON array)
-            $table->json('evidenceUrls')->nullable();
             $table->json('evidencePaths')->nullable();
         });
     }
