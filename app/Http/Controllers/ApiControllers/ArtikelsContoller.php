@@ -18,7 +18,7 @@ class ArtikelsContoller extends Controller
      *     path="/api/v1/artikels",
      *     operationId="getArtikelsList",
      *     tags={"Artikels"},
-     *    security={{"sanctum": {}}},
+     *     security={{"sanctum": {}}},
      *     summary="Get list of artikels",
      *     description="Returns a list of artikels ordered by the latest first",
      *     @OA\Response(
