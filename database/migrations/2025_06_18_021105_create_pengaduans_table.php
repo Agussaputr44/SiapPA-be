@@ -24,8 +24,8 @@ class CreatePengaduansTable extends Migration
             $table->unsignedBigInteger('pelapor');
             $table->foreign('pelapor')->references('id')->on('users')->onDelete('cascade');
 
-            $table->timestamp('createdAt')->useCurrent();
-            $table->timestamp('updatedAt')->nullable();
+            // $table->timestamp('createdAt')->useCurrent();
+            // $table->timestamp('updatedAt')->nullable();
 
             // Evidence (gunakan JSON array)
             $table->json('evidencePaths')->nullable();

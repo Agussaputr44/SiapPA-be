@@ -1155,7 +1155,7 @@
                     },
                     "evidencePaths": {
                         "type": "string",
-                        "example": "evidence/image.jpg",
+                        "example": "[evidence/image.jpg]",
                         "nullable": true
                     }
                 },

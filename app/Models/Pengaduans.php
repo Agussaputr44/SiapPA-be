@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  *     @OA\Property(property="kategoriKekerasan", type="string", enum={"kekerasan_fisik", "kekerasan_seksual", "kekerasan_lainnya"}, example="kekerasan_fisik"),
  *     @OA\Property(property="harapan", type="string", example="Saya berharap pelaku dihukum."),
  *     @OA\Property(property="status", type="string", nullable=true, example="terkirim"),
- *     @OA\Property(property="evidencePaths", type="string", nullable=true, example="evidence/image.jpg")
+ *     @OA\Property(property="evidencePaths", type="string", nullable=true, example="[evidence/image.jpg]")
  * )
  */
 class Pengaduans extends Model
