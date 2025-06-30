@@ -32,7 +32,7 @@ class ThirdPartyController extends Controller
 
         return Socialite::driver('google')->redirect();
     }
-    
+
     /**
      * Handle the Google callback and retrieve the user information.
      *
@@ -42,12 +42,10 @@ class ThirdPartyController extends Controller
     public function handleGoogleToken(Request $request)
     {
         try {
-            // Validate the request
             $request->validate([
                 'id_token' => 'required|string'
             ]);
 
-            // Verify token with Google
             $client = new \Google_Client(['client_id' => config('services.google.client_id')]);
             $payload = $client->verifyIdToken($request->id_token);
 
@@ -55,17 +53,23 @@ class ThirdPartyController extends Controller
                 return response()->json(['error' => 'Invalid token'], 401);
             }
 
-            // Find or create user
-            $user = User::firstOrCreate(
-                ['email' => $payload['email']],
-                [
-                    'name' => $payload['name'],
-                    'password' => bcrypt(Str::random(16)),
-                    'foto_profile' => $payload['picture'] ?? null,
-                ]
-            );
+            // Cek user, jika belum ada, create dan set email_verified_at
+            $user = User::where('email', $payload['email'])->first();
 
-            // Generate token
+            if (!$user) {
+                $user = User::create([
+                    'name' => $payload['name'],
+                    'email' => $payload['email'],
+                    'password' => bcrypt(Str::random(16)), // acak saja
+                    'foto_profil' => $payload['picture'] ?? null,
+                    'email_verified_at' => now(), // Tandai langsung sebagai verified!
+                ]);
+            } elseif (!$user->hasVerifiedEmail()) {
+                // Jika user sudah ada tapi belum verified, update kolom verified
+                $user->email_verified_at = now();
+                $user->save();
+            }
+
             $token = $user->createToken('FlutterApp')->plainTextToken;
 
             return response()->json([

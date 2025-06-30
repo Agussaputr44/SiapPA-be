@@ -87,11 +87,12 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // Kirim email verifikasi
+        $user->sendEmailVerificationNotification();
 
+        // Tidak perlu generate token di sini, karena user belum bisa akses API sebelum verified
         return response()->json([
-            'token' => $token,
-            'token_type' => 'Bearer',
+            'message' => 'Registration successful. Please check your email for verification link before logging in.',
         ], 201);
     }
 
@@ -143,6 +144,13 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Login failed, please check your credentials.',
             ], 401);
+        }
+
+        // Tambahkan cek verifikasi email
+        if (!$user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'Please verify your email address before logging in. We have sent you a verification email.',
+            ], 403);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;

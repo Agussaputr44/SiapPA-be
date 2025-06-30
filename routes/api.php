@@ -3,19 +3,42 @@
 use App\Http\Controllers\ApiControllers\ArtikelsContoller;
 use App\Http\Controllers\ApiControllers\AuthController;
 use App\Http\Controllers\ApiControllers\PengaduansController;
+use App\Http\Controllers\ApiControllers\ThirdPartyController;
 use App\Http\Controllers\ApiControllers\UploadsFilesController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
+use Illuminate\Auth\Events\Verified;
 
 Route::prefix('v1')->group(function () {
 
     // public routes
     Route::post('auth/register', [AuthController::class, 'register']);
     Route::post('auth/login', [AuthController::class, 'login']);
+    Route::post('auth/google', [ThirdPartyController::class, 'handleGoogleToken']);
 
+
+    Route::get('auth/email/verify/{id}/{hash}', function (Request $request) {
+        $user = User::findOrFail($request->route('id'));
+
+        // Cek hash valid
+        if (! hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
+            return response()->json(['message' => 'Invalid verification link'], 400);
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return response()->json(['message' => 'Email already verified.']);
+        }
+
+        $user->markEmailAsVerified();
+        event(new Verified($user));
+
+        return response()->json(['message' => 'Email verified!']);
+    })->middleware(['signed'])->name('verification.verify');
     // Email verification: untuk user yang sudah login
     Route::middleware('auth:sanctum')->group(function () {
+
         // Kirim ulang email verifikasi
         Route::post('auth/email/verification-notification', function (Request $request) {
             if ($request->user()->hasVerifiedEmail()) {
@@ -28,20 +51,7 @@ Route::prefix('v1')->group(function () {
         });
 
         // Proses verifikasi email (link dari email)
-        Route::get('auth/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-            if ($request->user()->hasVerifiedEmail()) {
-                return response()->json(['message' => 'Email already verified.']);
-            }
 
-            if ($request->user()->markEmailAsVerified()) {
-                // Bisa trigger event jika perlu
-            }
-
-            // Bisa pilih: JSON
-            return response()->json(['message' => 'Email verified!']);
-            // Atau redirect ke frontend:
-            // return redirect('http://localhost:5173/email-verified');
-        })->middleware(['signed'])->name('verification.verify');
         // Cek status verifikasi email
         Route::get('auth/email/check', function (Request $request) {
             return response()->json([
