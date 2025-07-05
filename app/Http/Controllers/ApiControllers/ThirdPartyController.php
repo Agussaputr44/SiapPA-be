@@ -60,12 +60,11 @@ class ThirdPartyController extends Controller
                 $user = User::create([
                     'name' => $payload['name'],
                     'email' => $payload['email'],
-                    'password' => bcrypt(Str::random(16)), // acak saja
-                    'foto_profil' => $payload['picture'] ?? null,
-                    'email_verified_at' => now(), // Tandai langsung sebagai verified!
+                    'password' => bcrypt(Str::random(16)), 
+                    'foto_profile' => $payload['picture'] ?? null,
+                    'email_verified_at' => now(), 
                 ]);
             } elseif (!$user->hasVerifiedEmail()) {
-                // Jika user sudah ada tapi belum verified, update kolom verified
                 $user->email_verified_at = now();
                 $user->save();
             }

@@ -39,7 +39,11 @@ class AuthController extends Controller
     public function getAllUser()
     {
         $users = User::all();
-        return response()->json($users, 200);
+
+        return response()->json([
+            'message' => 'User berhasil diambil.',
+            'data' => $users
+        ], 200);
     }
 
     /**

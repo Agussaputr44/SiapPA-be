@@ -32,4 +32,8 @@ class Pengaduans extends Model
         'pelapor',
         'evidencePaths',
     ];
+
+     protected $casts = [
+        'evidencePaths' => 'array', 
+    ];
 }

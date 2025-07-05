@@ -43,17 +43,21 @@ class ArtikelsContoller extends Controller
     {
         try {
             $artikels = Artikels::latest()->get();
-            return response()->json($artikels, 200);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data artikel berhasil diambil',
+                'data' => $artikels
+            ], 200);
         } catch (\Exception $e) {
-            return response()->json(
-                [
-                    'error' => 'Failed to fetch data',
-                    'message' => $e->getMessage()
-                ],
-                500
-            );
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengambil data artikel',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
+
     /**
      * @OA\Post(
      *     path="/api/v1/artikels",

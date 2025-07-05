@@ -25,7 +25,10 @@ class PengaduansController extends Controller
     {
         try {
             $pengaduans = Pengaduans::latest()->get();
-            return response()->json($pengaduans, 200);
+            return response()->json([
+                'data' => $pengaduans,
+                'message' => 'Pengaduan berhasil diambil.'
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Failed to fetch data',
@@ -59,7 +62,7 @@ class PengaduansController extends Controller
             'kategoriKekerasan' => 'required|in:kekerasan_fisik,kekerasan_seksual,kekerasan_lainnya',
             'harapan' => 'required|string',
             'status' => 'nullable|in:terkirim,diproses,selesai',
-            'evidencePaths' => 'nullable|string',
+            'evidencePaths' => 'nullable|array',
         ]);
 
         try {
