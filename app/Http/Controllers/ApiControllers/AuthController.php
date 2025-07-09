@@ -262,7 +262,7 @@ class AuthController extends Controller
      *         required=false,
      *         @OA\JsonContent(
      *             @OA\Property(property="name", type="string", example="John Doe Updated", description="Nama pengguna", nullable=true),
-     *             @OA\Property(property="foto_profil", type="string", example="path/to/newfoto.jpg", description="Path atau URL foto profil", nullable=true),
+     *             @OA\Property(property="foto_profile", type="string", example="path/to/newfoto.jpg", description="Path atau URL foto profil", nullable=true),
      *             @OA\Property(property="password", type="string", example="newpassword123", description="Kata sandi baru", nullable=true)
      *         )
      *     ),
@@ -293,7 +293,7 @@ class AuthController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|string|max:255',
-            'foto_profil' => 'sometimes|string|max:255',
+            'foto_profile' => 'sometimes|string|max:255',
             'password' => 'sometimes|string|min:8',
         ]);
 
@@ -315,12 +315,12 @@ class AuthController extends Controller
             $updateData['password'] = Hash::make($request->password);
         }
 
-        if ($request->has('foto_profil') && !empty($request->input('foto_profil'))) {
-            $updateData['foto_profil'] = $this->sanitizeUrl($request->input('foto_profil'));
+        if ($request->has('foto_profile') && !empty($request->input('foto_profile'))) {
+            $updateData['foto_profile'] = $this->sanitizeUrl($request->input('foto_profile'));
         }
 
-        if (isset($updateData['foto_profil'])) {
-            Log::info('Profile picture URL updated:', ['foto_profil' => $updateData['foto_profil']]);
+        if (isset($updateData['foto_profile'])) {
+            Log::info('Profile picture URL updated:', ['foto_profile' => $updateData['foto_profile']]);
         }
 
         Log::info('Profile update data:', $updateData);

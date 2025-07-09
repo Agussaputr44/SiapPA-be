@@ -65,6 +65,8 @@ Route::prefix('v1')->group(function () {
             Route::post('auth/logout', [AuthController::class, 'logout']);
             Route::get('auth/users', [AuthController::class, 'getAllUser']);
             Route::get('auth/user', [AuthController::class, 'getUserProfile']);
+            Route::put('auth/user', [AuthController::class, 'updateProfile']);
+            Route::put('auth/update-password', [AuthController::class, 'updatePassword']);
 
             // upload files
             Route::post('uploads', [UploadsFilesController::class, 'uploadFiles']);
