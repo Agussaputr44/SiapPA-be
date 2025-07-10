@@ -51,32 +51,41 @@ class PengaduansController extends Controller
      *     @OA\Response(response=500, description="Internal Server Error")
      * )
      */
-    public function store(Request $request)
-    {
-        Log::info('Request data: ', $request->all());
+   public function store(Request $request)
+{
+    Log::info('Request data: ', $request->all());
 
-        $validated = $request->validate([
-            'namaKorban' => 'required|string|max:255',
-            'alamat' => 'required|string|max:255',
-            'aduan' => 'required|string',
-            'kategoriKekerasan' => 'required|in:kekerasan_fisik,kekerasan_seksual,kekerasan_lainnya',
-            'harapan' => 'required|string',
-            'status' => 'nullable|in:terkirim,diproses,selesai',
-            'evidencePaths' => 'nullable|array',
-        ]);
+    $validated = $request->validate([
+        'namaKorban' => 'required|string|max:255',
+        'alamat' => 'required|string|max:255',
+        'aduan' => 'required|string',
+        'kategoriKekerasan' => 'required|in:kekerasan_fisik,kekerasan_seksual,kekerasan_psikis,kekerasan_ekonomi,kekerasan_sosial',
+        'korban' => 'required|in:anak_laki_laki,anak_perempuan,perempuan',
+        'harapan' => 'required|string',
+        'status' => 'nullable|in:terkirim,diproses,selesai',
+        'evidencePaths' => 'nullable|array',
+        'evidencePaths.*' => 'string'
+    ]);
 
-        try {
-            $pelapor_id = $request->user()->id;
-            $validated['pelapor'] = $pelapor_id;
-            $pengaduan = Pengaduans::create($validated);
-            return response()->json($pengaduan, 201);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Failed to store data',
-                'message' => $e->getMessage()
-            ], 500);
+    try {
+        $validated['pelapor'] = $request->user()->id;
+
+        if (isset($validated['evidencePaths'])) {
+            // Simpan evidencePaths sebagai JSON
+            $validated['evidencePaths'] = json_encode($validated['evidencePaths']);
         }
+
+        $pengaduan = Pengaduans::create($validated);
+
+        return response()->json($pengaduan, 201);
+    } catch (\Exception $e) {
+        Log::error('Store pengaduan failed: ' . $e->getMessage());
+        return response()->json([
+            'error' => 'Failed to store data',
+            'message' => $e->getMessage()
+        ], 500);
     }
+}
 
     /**
      * @OA\Get(

@@ -31,6 +31,7 @@ class Pengaduans extends Model
         'kategoriKekerasan',
         'pelapor',
         'evidencePaths',
+        'korban'
     ];
 
      protected $casts = [

@@ -34,8 +34,10 @@ Route::prefix('v1')->group(function () {
         $user->markEmailAsVerified();
         event(new Verified($user));
 
-        return response()->json(['message' => 'Email verified!']);
+        return response()->json(['message' => 'Email berhasil diverifikasi. Silakan login.']);
     })->middleware(['signed'])->name('verification.verify');
+
+
     // Email verification: untuk user yang sudah login
     Route::middleware('auth:sanctum')->group(function () {
 

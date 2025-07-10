@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -74,7 +75,7 @@
         }
 
         .nav-links a:hover {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
 
@@ -114,9 +115,17 @@
         }
 
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
         }
 
         .hero-content {
@@ -164,7 +173,7 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .btn-primary {
@@ -178,13 +187,13 @@
         }
 
         .btn-secondary {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
-            border: 2px solid rgba(255,255,255,0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .btn-secondary:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.3);
             transform: translateY(-3px);
         }
 
@@ -204,9 +213,17 @@
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
         /* Features Section */
@@ -366,7 +383,7 @@
         }
 
         .download-btn {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
             padding: 15px 30px;
             border-radius: 50px;
@@ -375,13 +392,13 @@
             align-items: center;
             gap: 10px;
             transition: all 0.3s ease;
-            border: 2px solid rgba(255,255,255,0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .download-btn:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.3);
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         }
 
         /* Footer */
@@ -404,7 +421,8 @@
             color: rgb(248, 187, 208);
         }
 
-        .footer-section p, .footer-section a {
+        .footer-section p,
+        .footer-section a {
             color: #bdc3c7;
             text-decoration: none;
             margin-bottom: 10px;
@@ -427,6 +445,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -472,14 +491,16 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header>
         <nav class="container">
             <div class="logo">
-                <i class="fas fa-shield-alt"></i>
+                <img src="logo/logo.png" alt="Logo SiapPA" style="height: 40px;">
                 SiapPA
             </div>
+
             <ul class="nav-links">
                 <li><a href="#home">Beranda</a></li>
                 <li><a href="#features">Fitur</a></li>
@@ -499,13 +520,14 @@
         <div class="container">
             <div class="hero-content">
                 <h1>SiapPA</h1>
-                <p>Sistem Pelaporan Kekerasan Anak dan Perempuan yang Aman, Terpercaya, dan Mudah Digunakan. Bersama kita lindungi mereka yang membutuhkan.</p>
+                <p>Sistem Pelaporan Kekerasan Anak dan Perempuan yang Aman, Terpercaya, dan Mudah Digunakan. Bersama
+                    kita lindungi mereka yang membutuhkan.</p>
                 <div class="download-buttons">
-                <a href="/download/android" class="download-btn">
-                    <i class="fab fa-android"></i>
-                    Download Sekarang
-                </a>
-                {{-- <a href="/download/ios" class="download-btn">
+                    <a href="/download/android" class="download-btn">
+                        <i class="fab fa-android"></i>
+                        Download Sekarang
+                    </a>
+                    {{-- <a href="/download/ios" class="download-btn">
                     <i class="fab fa-apple"></i>
                     Download untuk iOS
                 </a>
@@ -513,7 +535,7 @@
                     <i class="fas fa-globe"></i>
                     Akses Web App
                 </a> --}}
-            </div>
+                </div>
 
 
             </div>
@@ -530,42 +552,48 @@
                         <i class="fas fa-user-shield"></i>
                     </div>
                     <h3>Keamanan Terjamin</h3>
-                    <p>Semua data dan identitas pelapor dijamin keamanannya dengan enkripsi tingkat tinggi dan sistem anonimitas yang kuat.</p>
+                    <p>Semua data dan identitas pelapor dijamin keamanannya dengan enkripsi tingkat tinggi dan sistem
+                        anonimitas yang kuat.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-clock"></i>
                     </div>
                     <h3>Respon Cepat</h3>
-                    <p>Sistem notifikasi real-time untuk memastikan setiap laporan ditangani dengan cepat dan tepat oleh pihak berwenang.</p>
+                    <p>Sistem notifikasi real-time untuk memastikan setiap laporan ditangani dengan cepat dan tepat oleh
+                        pihak berwenang.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
                     <h3>Mudah Digunakan</h3>
-                    <p>Interface yang intuitif dan user-friendly, memungkinkan siapa saja dapat membuat laporan dengan mudah dan cepat.</p>
+                    <p>Interface yang intuitif dan user-friendly, memungkinkan siapa saja dapat membuat laporan dengan
+                        mudah dan cepat.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
                     <h3>Pelacakan Lokasi</h3>
-                    <p>Fitur GPS terintegrasi untuk membantu identifikasi lokasi kejadian dan mempercepat proses penanganan.</p>
+                    <p>Fitur GPS terintegrasi untuk membantu identifikasi lokasi kejadian dan mempercepat proses
+                        penanganan.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-headset"></i>
                     </div>
                     <h3>Dukungan 24/7</h3>
-                    <p>Tim support dan konselor profesional siap membantu korban dan pelapor kapan saja, 24 jam sehari 7 hari seminggu.</p>
+                    <p>Tim support dan konselor profesional siap membantu korban dan pelapor kapan saja, 24 jam sehari 7
+                        hari seminggu.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <h3>Laporan Analitik</h3>
-                    <p>Dashboard komprehensif untuk monitoring dan analisis data kekerasan guna pencegahan yang lebih efektif.</p>
+                    <p>Dashboard komprehensif untuk monitoring dan analisis data kekerasan guna pencegahan yang lebih
+                        efektif.</p>
                 </div>
             </div>
         </div>
@@ -577,9 +605,12 @@
             <div class="about-content">
                 <div class="about-text">
                     <h2>Tentang SiapPA</h2>
-                    <p>SiapPA adalah platform digital yang dikembangkan khusus untuk memberikan solusi komprehensif dalam pelaporan dan penanganan kasus kekerasan terhadap anak dan perempuan.</p>
-                    <p>Dengan teknologi Laravel yang robust dan fitur keamanan tingkat tinggi, kami berkomitmen untuk menciptakan lingkungan yang aman bagi korban untuk melaporkan kejadian yang mereka alami.</p>
-                    <p>Tim kami terdiri dari para ahli teknologi, psikolog, dan aktivis hak asasi manusia yang berdedikasi untuk melindungi mereka yang paling rentan dalam masyarakat.</p>
+                    <p>SiapPA adalah platform digital yang dikembangkan khusus untuk memberikan solusi komprehensif
+                        dalam pelaporan dan penanganan kasus kekerasan terhadap anak dan perempuan.</p>
+                    <p>Dengan teknologi Laravel yang robust dan fitur keamanan tingkat tinggi, kami berkomitmen untuk
+                        menciptakan lingkungan yang aman bagi korban untuk melaporkan kejadian yang mereka alami.</p>
+                    <p>Tim kami terdiri dari para ahli teknologi, psikolog, dan aktivis hak asasi manusia yang
+                        berdedikasi untuk melindungi mereka yang paling rentan dalam masyarakat.</p>
                 </div>
                 <div class="about-image">
                     <i class="fas fa-hands-helping"></i>
@@ -625,7 +656,7 @@
     <script>
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
@@ -633,12 +664,13 @@
             });
         });
 
-    window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
             if (window.scrollY > 100) {
                 header.style.background = 'rgba(241, 140, 176, 0.95)'; // pink semi-transparent
             } else {
-                header.style.background = 'linear-gradient(135deg, rgb(241, 140, 176) 0%, rgb(248, 187, 208) 100%)'; // pink gradient
+                header.style.background =
+                'linear-gradient(135deg, rgb(241, 140, 176) 0%, rgb(248, 187, 208) 100%)'; // pink gradient
             }
         });
 
@@ -647,18 +679,18 @@
         document.querySelectorAll('a[href^="/download"]').forEach(button => {
             button.addEventListener('click', function(e) {
                 e.preventDefault();
-                
+
                 // Show loading state
                 const originalText = this.innerHTML;
                 this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mempersiapkan Download...';
                 this.style.pointerEvents = 'none';
-                
+
                 // Simulate download preparation
                 setTimeout(() => {
                     // Reset button
                     this.innerHTML = originalText;
                     this.style.pointerEvents = 'auto';
-                    
+
                     // Show success message
                     const notification = document.createElement('div');
                     notification.style.cssText = `
@@ -672,14 +704,15 @@
                         z-index: 10000;
                         box-shadow: 0 4px 15px rgba(0,0,0,0.2);
                     `;
-                    notification.innerHTML = '<i class="fas fa-check"></i> Download dimulai! Terima kasih telah menggunakan SiapPA.';
+                    notification.innerHTML =
+                        '<i class="fas fa-check"></i> Download dimulai! Terima kasih telah menggunakan SiapPA.';
                     document.body.appendChild(notification);
-                    
+
                     // Remove notification after 3 seconds
                     setTimeout(() => {
                         notification.remove();
                     }, 3000);
-                    
+
                     // Here you would implement actual download logic
                     // For Laravel, you might redirect to a download controller
                     // window.location.href = this.href;
@@ -690,7 +723,7 @@
         // Mobile menu toggle
         const mobileMenu = document.querySelector('.mobile-menu');
         const navLinks = document.querySelector('.nav-links');
-        
+
         mobileMenu.addEventListener('click', function() {
             navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
         });
@@ -708,14 +741,15 @@
                         const target = parseInt(stat.textContent);
                         let current = 0;
                         const increment = target / 100;
-                        
+
                         const timer = setInterval(() => {
                             current += increment;
                             if (current >= target) {
                                 current = target;
                                 clearInterval(timer);
                             }
-                            stat.textContent = Math.floor(current) + (stat.textContent.includes('+') ? '+' : '');
+                            stat.textContent = Math.floor(current) + (stat.textContent
+                                .includes('+') ? '+' : '');
                         }, 20);
                     });
                 }
@@ -725,4 +759,5 @@
         observer.observe(document.querySelector('.stats'));
     </script>
 </body>
+
 </html>
